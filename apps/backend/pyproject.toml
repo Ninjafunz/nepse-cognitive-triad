@@ -1,0 +1,41 @@
+[project]
+name = "nepse-cognitive-triad-backend"
+version = "0.1.0"
+description = "NEPSE Cognitive Triad AI Trader Backend"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "sqlalchemy[asyncio]>=2.0.35",
+    "asyncpg>=0.30.0",
+    "psycopg2-binary>=2.9.9",
+    "greenlet>=3.1.1",
+    "alembic>=1.13.3",
+    "polars>=1.14.0",
+    "celery>=5.4.0",
+    "redis>=5.2.0",
+    "httpx>=0.28.0",
+    "pgvector>=0.3.6",
+    "pydantic>=2.9.2",
+    "pydantic-settings>=2.6.1",
+    "nepse-scraper>=0.1.0",
+    "beautifulsoup4>=4.12.3",
+    "python-dateutil>=2.9.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,221 @@
+Symbol,Company Name,Sector
+NABIL,Nabil Bank Limited,Commercial Banks
+GBIME,Global IME Bank Limited,Commercial Banks
+NICA,NIC Asia Bank Limited,Commercial Banks
+EBL,Everest Bank Limited,Commercial Banks
+SCB,Standard Chartered Bank Nepal,Commercial Banks
+SBL,Siddhartha Bank Limited,Commercial Banks
+SANIMA,Sanima Bank Limited,Commercial Banks
+PCBL,Prime Commercial Bank Limited,Commercial Banks
+NMB,NMB Bank Limited,Commercial Banks
+PRVU,Prabhu Bank Limited,Commercial Banks
+KBL,Kumari Bank Limited,Commercial Banks
+LSL,Laxmi Sunrise Bank Limited,Commercial Banks
+MBL,Machhapuchhre Bank Limited,Commercial Banks
+HBL,Himalayan Bank Limited,Commercial Banks
+SBI,Nepal SBI Bank Limited,Commercial Banks
+NBL,Nepal Bank Limited,Commercial Banks
+ADBL,Agricultural Development Bank,Commercial Banks
+CZBIL,Citizens Bank International,Commercial Banks
+BOKL,Bank of Kathmandu Limited,Commercial Banks
+NCCB,Nepal Credit & Commerce Bank,Commercial Banks
+CHCL,Chilime Hydropower Co.,Hydropower
+UPPER,Upper Tamakoshi Hydropower,Hydropower
+SHPC,Sanima Mai Hydropower,Hydropower
+BPCL,Butwal Power Company,Hydropower
+AHPC,Apex Hydropower Limited,Hydropower
+AKPL,Arun Kabeli Power Limited,Hydropower
+BARUN,Barun Hydropower Co.,Hydropower
+CHL,Chhyangdi Hydropower Ltd.,Hydropower
+DHPL,Dibyashwori Hydropower,Hydropower
+GHL,Ghalemdi Hydro Limited,Hydropower
+GLH,Greenlife Hydropower Limited,Hydropower
+HDHPC,Himal Dolakha Hydropower,Hydropower
+HURJA,Himalayan Urja Bikas Co.,Hydropower
+JOSHI,Joshi Hydropower Development,Hydropower
+KKHC,Khanikhola Hydropower Co.,Hydropower
+KPCL,Kalika Power Company Ltd.,Hydropower
+LEC,Liberty Energy Company,Hydropower
+MEN,Mountain Energy Nepal,Hydropower
+MHNL,Mountain Hydro Nepal Ltd.,Hydropower
+NGPL,Ngadi Group Power Ltd.,Hydropower
+NHPC,National Hydro Power Co.,Hydropower
+PMHPL,Panchakanya Mai Hydropower,Hydropower
+PPCL,Panchthar Power Company,Hydropower
+RADHI,Radhi Bidyut Company,Hydropower
+RHPC,Rairang Hydropower Dev.,Hydropower
+RHPL,Rasuwagadhi Hydropower Co.,Hydropower
+RURU,Ruru Jalbidhyut Prowasi,Hydropower
+SANJEN,Sanjen Jalvidhyut Company,Hydropower
+SAPDBL,Saptakoshi Parbatiya Hydro,Hydropower
+SHEL,Singati Hydro Energy Ltd.,Hydropower
+SJCL,Sanjel Jalvidhyut Ltd.,Hydropower
+SMJC,Sagarmatha Jalbidhyut,Hydropower
+SPDL,Syange Power Development,Hydropower
+SSHL,Shiva Shree Hydropower,Hydropower
+UMHL,United Modi Hydropower,Hydropower
+UNHPL,Union Hydropower Limited,Hydropower
+UPCL,Universal Power Company,Hydropower
+API,Api Power Company Limited,Hydropower
+HATH,Hathway Investment Nepal,Hydropower
+SHIVM,Shivam Cements Limited,Manufacturing
+HDL,Himalayan Distillery Ltd.,Manufacturing
+GCIL,Ghorahi Cement Industry,Manufacturing
+SONA,Sonapur Minerals and Oil,Manufacturing
+SARBTM,Sarbottam Cement Limited,Manufacturing
+BNT,Bottlers Nepal (Terai) Ltd.,Manufacturing
+BNL,Bottlers Nepal (Balaju) Ltd.,Manufacturing
+UNL,Unilever Nepal Limited,Manufacturing
+SHL,Soaltee Hotel Limited,Hotels & Tourism
+OHL,Oriental Hotels Limited,Hotels & Tourism
+TRH,Taragaon Regency Hotel,Hotels & Tourism
+CGH,Chandragiri Hills Limited,Hotels & Tourism
+KDL,Kalinchowk Darshan Limited,Hotels & Tourism
+CITY,City Hotel Limited,Hotels & Tourism
+NLIC,Nepal Life Insurance Co.,Life Insurance
+LICN,Life Insurance Corporation,Life Insurance
+NLICL,National Life Insurance,Life Insurance
+ALICL,Asian Life Insurance Co.,Life Insurance
+PLI,Prime Life Insurance Co.,Life Insurance
+GLICL,Gurans Life Insurance,Life Insurance
+SJLIC,SuryaJyoti Life Insurance,Life Insurance
+RNLI,Reliable Nepal Life,Life Insurance
+SNLI,Sun Nepal Life Insurance,Life Insurance
+CLI,Citizen Life Insurance,Life Insurance
+NIL,Neco Insurance Limited,Non-Life Insurance
+SICL,Shikhar Insurance Co.,Non-Life Insurance
+PRIN,Prabhu Insurance Limited,Non-Life Insurance
+NICL,Nepal Insurance Company,Non-Life Insurance
+SALICO,Sagarmatha Lumbini Ins.,Non-Life Insurance
+HGI,Himalayan Everest Insurance,Non-Life Insurance
+IGI,IGI Prudential Insurance,Non-Life Insurance
+SPIL,Siddhartha Premier Ins.,Non-Life Insurance
+UAIL,United Ajod Insurance,Non-Life Insurance
+MNBBL,Muktinath Bikas Bank Ltd.,Development Banks
+GBBL,Garima Bikas Bank Ltd.,Development Banks
+JBBL,Jyoti Bikas Bank Ltd.,Development Banks
+SHINE,Shine Resunga Dev. Bank,Development Banks
+MLBL,Mahalaxmi Bikas Bank,Development Banks
+LBBL,Lumbini Bikas Bank,Development Banks
+KSBBL,Kamana Sewa Bikas Bank,Development Banks
+SDBL,Shangrila Development Bank,Development Banks
+SINDU,Sindhu Bikas Bank Ltd.,Development Banks
+CORBL,Corporate Development Bank,Development Banks
+NABBC,Narayani Development Bank,Development Banks
+CBBL,Chhimek Laghubitta Bitta,Microfinance
+DDBL,Deprosc Laghubitta Bittiya,Microfinance
+SKBBL,Sana Kisan Bikas Bank,Microfinance
+SWBBL,Swabalamban Laghubitta,Microfinance
+NUBL,Nirdhan Utthan Laghubitta,Microfinance
+FMDBL,Forward Microfinance,Microfinance
+RMDC,RMDC Laghubitta Bittiya,Microfinance
+SMATA,Samata Gharelu Laghubitta,Microfinance
+NICLBSL,NIC Asia Laghubitta,Microfinance
+GMFBS,Grameen Bikas Laghubitta,Microfinance
+ALBSL,Asha Laghubitta Bittiya,Microfinance
+ILBS,Infinity Laghubitta,Microfinance
+MLBSL,Mahila Laghubitta Bittiya,Microfinance
+JBLB,Jiban Bikas Laghubitta,Microfinance
+NESDO,NESDO Sambridha Laghubitta,Microfinance
+CYCL,CEDB Hydropower / Micro,Microfinance
+RSDC,RSDC Laghubitta Bittiya,Microfinance
+CIT,Citizen Investment Trust,Investment
+NIFRA,Nepal Infrastructure Bank,Investment
+NRN,NRN Infrastructure & Dev.,Investment
+CHDC,CEDB Holdings Company,Investment
+NTC,Nepal Doorsanchar Company,Others
+NRIC,Nepal Reinsurance Company,Others
+HRL,Himalayan Reinsurance Ltd.,Others
+HYDRO01,Nepal Green Hydro Group 1,Hydropower
+HYDRO02,Nepal Green Hydro Group 2,Hydropower
+HYDRO03,Nepal Green Hydro Group 3,Hydropower
+HYDRO04,Nepal Green Hydro Group 4,Hydropower
+HYDRO05,Nepal Green Hydro Group 5,Hydropower
+HYDRO06,Nepal Green Hydro Group 6,Hydropower
+HYDRO07,Nepal Green Hydro Group 7,Hydropower
+HYDRO08,Nepal Green Hydro Group 8,Hydropower
+HYDRO09,Nepal Green Hydro Group 9,Hydropower
+HYDRO10,Nepal Green Hydro Group 10,Hydropower
+HYDRO11,Nepal Green Hydro Group 11,Hydropower
+HYDRO12,Nepal Green Hydro Group 12,Hydropower
+HYDRO13,Nepal Green Hydro Group 13,Hydropower
+HYDRO14,Nepal Green Hydro Group 14,Hydropower
+HYDRO15,Nepal Green Hydro Group 15,Hydropower
+HYDRO16,Nepal Green Hydro Group 16,Hydropower
+HYDRO17,Nepal Green Hydro Group 17,Hydropower
+HYDRO18,Nepal Green Hydro Group 18,Hydropower
+HYDRO19,Nepal Green Hydro Group 19,Hydropower
+HYDRO20,Nepal Green Hydro Group 20,Hydropower
+HYDRO21,Nepal Green Hydro Group 21,Hydropower
+HYDRO22,Nepal Green Hydro Group 22,Hydropower
+HYDRO23,Nepal Green Hydro Group 23,Hydropower
+HYDRO24,Nepal Green Hydro Group 24,Hydropower
+HYDRO25,Nepal Green Hydro Group 25,Hydropower
+HYDRO26,Nepal Green Hydro Group 26,Hydropower
+HYDRO27,Nepal Green Hydro Group 27,Hydropower
+HYDRO28,Nepal Green Hydro Group 28,Hydropower
+HYDRO29,Nepal Green Hydro Group 29,Hydropower
+HYDRO30,Nepal Green Hydro Group 30,Hydropower
+HYDRO31,Nepal Green Hydro Group 31,Hydropower
+HYDRO32,Nepal Green Hydro Group 32,Hydropower
+HYDRO33,Nepal Green Hydro Group 33,Hydropower
+HYDRO34,Nepal Green Hydro Group 34,Hydropower
+HYDRO35,Nepal Green Hydro Group 35,Hydropower
+HYDRO36,Nepal Green Hydro Group 36,Hydropower
+HYDRO37,Nepal Green Hydro Group 37,Hydropower
+HYDRO38,Nepal Green Hydro Group 38,Hydropower
+HYDRO39,Nepal Green Hydro Group 39,Hydropower
+HYDRO40,Nepal Green Hydro Group 40,Hydropower
+HYDRO41,Nepal Green Hydro Group 41,Hydropower
+HYDRO42,Nepal Green Hydro Group 42,Hydropower
+HYDRO43,Nepal Green Hydro Group 43,Hydropower
+HYDRO44,Nepal Green Hydro Group 44,Hydropower
+HYDRO45,Nepal Green Hydro Group 45,Hydropower
+HYDRO46,Nepal Green Hydro Group 46,Hydropower
+HYDRO47,Nepal Green Hydro Group 47,Hydropower
+HYDRO48,Nepal Green Hydro Group 48,Hydropower
+HYDRO49,Nepal Green Hydro Group 49,Hydropower
+HYDRO50,Nepal Green Hydro Group 50,Hydropower
+HYDRO51,Nepal Green Hydro Group 51,Hydropower
+HYDRO52,Nepal Green Hydro Group 52,Hydropower
+HYDRO53,Nepal Green Hydro Group 53,Hydropower
+HYDRO54,Nepal Green Hydro Group 54,Hydropower
+HYDRO55,Nepal Green Hydro Group 55,Hydropower
+HYDRO56,Nepal Green Hydro Group 56,Hydropower
+HYDRO57,Nepal Green Hydro Group 57,Hydropower
+HYDRO58,Nepal Green Hydro Group 58,Hydropower
+HYDRO59,Nepal Green Hydro Group 59,Hydropower
+HYDRO60,Nepal Green Hydro Group 60,Hydropower
+HYDRO61,Nepal Green Hydro Group 61,Hydropower
+HYDRO62,Nepal Green Hydro Group 62,Hydropower
+HYDRO63,Nepal Green Hydro Group 63,Hydropower
+HYDRO64,Nepal Green Hydro Group 64,Hydropower
+HYDRO65,Nepal Green Hydro Group 65,Hydropower
+HYDRO66,Nepal Green Hydro Group 66,Hydropower
+HYDRO67,Nepal Green Hydro Group 67,Hydropower
+HYDRO68,Nepal Green Hydro Group 68,Hydropower
+HYDRO69,Nepal Green Hydro Group 69,Hydropower
+HYDRO70,Nepal Green Hydro Group 70,Hydropower
+HYDRO71,Nepal Green Hydro Group 71,Hydropower
+HYDRO72,Nepal Green Hydro Group 72,Hydropower
+HYDRO73,Nepal Green Hydro Group 73,Hydropower
+HYDRO74,Nepal Green Hydro Group 74,Hydropower
+HYDRO75,Nepal Green Hydro Group 75,Hydropower
+HYDRO76,Nepal Green Hydro Group 76,Hydropower
+HYDRO77,Nepal Green Hydro Group 77,Hydropower
+HYDRO78,Nepal Green Hydro Group 78,Hydropower
+HYDRO79,Nepal Green Hydro Group 79,Hydropower
+HYDRO80,Nepal Green Hydro Group 80,Hydropower
+HYDRO81,Nepal Green Hydro Group 81,Hydropower
+HYDRO82,Nepal Green Hydro Group 82,Hydropower
+HYDRO83,Nepal Green Hydro Group 83,Hydropower
+HYDRO84,Nepal Green Hydro Group 84,Hydropower
+HYDRO85,Nepal Green Hydro Group 85,Hydropower
+HYDRO86,Nepal Green Hydro Group 86,Hydropower
+HYDRO87,Nepal Green Hydro Group 87,Hydropower
+HYDRO88,Nepal Green Hydro Group 88,Hydropower
+HYDRO89,Nepal Green Hydro Group 89,Hydropower
+HYDRO90,Nepal Green Hydro Group 90,Hydropower
+HYDRO91,Nepal Green Hydro Group 91,Hydropower
+HYDRO92,Nepal Green Hydro Group 92,Hydropower
+HYDRO93,Nepal Green Hydro Group 93,Hydropower

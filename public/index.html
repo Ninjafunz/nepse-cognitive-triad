@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEPSE Cognitive Triad — Hedge Fund Terminal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nepseGreen: "#10b981",
+            nepseRed: "#f43f5e",
+            triadAlpha: "#3b82f6",
+            triadBeta: "#a855f7",
+            triadGamma: "#f59e0b",
+          },
+          fontFamily: {
+            mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #09090b; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #09090b; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen antialiased flex overflow-hidden">
+
+  <!-- Left-hand Institutional Sidebar -->
+  <aside class="w-64 border-r border-zinc-800/80 bg-zinc-950 flex flex-col justify-between shrink-0 select-none">
+    <div class="p-4 space-y-6">
+      <!-- Terminal Brand -->
+      <div className="flex items-center space-x-3 px-2 py-1">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-600 to-rose-500 flex items-center justify-center text-white font-mono font-bold text-xs shadow-lg shadow-indigo-950/50">
+            CT
+          </div>
+          <div>
+            <div class="font-bold text-sm tracking-tight text-white flex items-center gap-1.5">
+              <span>COGNITIVE TRIAD</span>
+            </div>
+            <div class="text-[10px] font-mono tracking-widest text-zinc-400 uppercase">
+              NEPSE Terminal v1.0
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-1">
+        <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition bg-zinc-900 text-white border border-zinc-800">
+          <div class="flex items-center space-x-3">
+            <span>📊</span>
+            <span>Executive Overview</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('consciousness')" id="nav-consciousness" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
+          <div class="flex items-center space-x-3">
+            <span>🧠</span>
+            <span>AI Consciousness</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-indigo-950 text-indigo-400 border-indigo-800">TRIAD</span>
+        </button>
+
+        <button onclick="switchTab('portfolio')" id="nav-portfolio" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
+          <div class="flex items-center space-x-3">
+            <span>📑</span>
+            <span>Portfolio & Ledger</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-emerald-950 text-emerald-400 border-emerald-800">T+2</span>
+        </button>
+
+        <button onclick="switchTab('research')" id="nav-research" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
+          <div class="flex items-center space-x-3">
+            <span>🔬</span>
+            <span>Research & Stress Lab</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-rose-950 text-rose-400 border-rose-800">FALSIFIED</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Terminal Footer Status -->
+    <div class="p-4 border-t border-zinc-800/80 space-y-3">
+      <div class="bg-zinc-900/80 border border-zinc-800 p-3 rounded-lg space-y-2 text-[11px] font-mono">
+        <div class="flex items-center justify-between">
+          <span class="text-zinc-400">System Core</span>
+          <span class="text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>NOMINAL</span>
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-zinc-400">Settlement Cycle</span>
+          <span class="text-zinc-200">T+2 Working Days</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-zinc-400">Taleb Veto Guard</span>
+          <span class="text-amber-400">ARMED</span>
+        </div>
+      </div>
+      <a href="http://localhost:8000/docs" target="_blank" class="w-full py-2 px-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-lg text-[11px] font-mono flex items-center justify-center space-x-2 border border-zinc-800 transition">
+        <span>OpenAPI Docs (:8000) ↗</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Right App Body -->
+  <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+    <!-- Header -->
+    <header class="h-14 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur px-6 flex items-center justify-between shrink-0 sticky top-0 z-40">
+      <div class="flex items-center space-x-4">
+        <input type="text" value="NABIL (Nabil Bank Limited)" readonly class="pl-3 pr-3 py-1 bg-zinc-900 border border-zinc-800 rounded text-xs text-zinc-200 font-mono w-56" />
+        <div class="hidden md:flex items-center space-x-2 text-xs font-mono text-zinc-400">
+          <span>|</span>
+          <span>NEPSE: <strong class="text-zinc-200">2,085.40</strong> <span class="text-emerald-400 font-semibold">(+0.60%)</span></span>
+          <span>|</span>
+          <span>Turnover: <strong class="text-zinc-200">NPR 4.21B</strong></span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-5 text-xs font-mono">
+        <div class="hidden lg:flex items-center space-x-2 bg-zinc-900/90 border border-zinc-800 px-3 py-1 rounded">
+          <span class="text-zinc-400">Settled Buying Power:</span>
+          <span class="text-emerald-400 font-bold">NPR 8,450,000.00</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-zinc-200 font-bold">ONLINE</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <main class="flex-1 overflow-y-auto p-6 bg-zinc-950/60 custom-scrollbar">
+      <div class="max-w-7xl mx-auto">
+
+        <!-- PAGE 1: EXECUTIVE OVERVIEW -->
+        <div id="page-overview" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl shadow-lg">
+              <div class="text-xs text-zinc-400 font-medium">TOTAL VIRTUAL CAPITAL</div>
+              <div class="text-2xl font-bold font-mono text-zinc-100 mt-2">NPR 13,300,000.00</div>
+              <div class="text-xs font-mono text-emerald-400 mt-2">▲ +86.74% Historical Return</div>
+            </div>
+            <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl shadow-lg">
+              <div class="text-xs text-zinc-400 font-medium">SETTLED CASH (T+2 BUYING POWER)</div>
+              <div class="text-2xl font-bold font-mono text-emerald-400 mt-2">NPR 8,450,000.00</div>
+              <div class="text-xs text-zinc-500 font-mono mt-2">Spendable immediately</div>
+            </div>
+            <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl shadow-lg">
+              <div class="text-xs text-zinc-400 font-medium">UNSETTLED T+2 RECEIVABLES</div>
+              <div class="text-2xl font-bold font-mono text-amber-400 mt-2">NPR 1,200,000.00</div>
+              <div class="text-xs text-zinc-500 font-mono mt-2">Clears in 2 business days</div>
+            </div>
+            <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl shadow-lg">
+              <div class="text-xs text-zinc-400 font-medium">SYSTEM INTEGRITY</div>
+              <div class="text-2xl font-bold font-mono text-emerald-400 mt-2">NOMINAL</div>
+              <div class="text-xs text-zinc-500 font-mono mt-2">Taleb Veto Armed & Active</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Equity Chart -->
+            <div class="lg:col-span-8 bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
+              <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <div>
+                  <h2 class="text-sm font-bold text-zinc-100">PORTFOLIO EQUITY GROWTH (2021 EXPANSION)</h2>
+                  <p class="text-xs text-zinc-400 font-mono">NPR 13.30M Initial → NPR 24.84M (+86.74%) vs NEPSE Benchmark</p>
+                </div>
+                <div class="text-xs font-mono text-indigo-400">● Triad Strategy  <span class="text-zinc-500">-- Buy & Hold</span></div>
+              </div>
+
+              <!-- Visual SVG Chart -->
+              <div class="h-64 w-full pt-2">
+                <svg viewBox="0 0 800 240" class="w-full h-full">
+                  <line x1="40" y1="50" x2="760" y2="50" stroke="#27272a" stroke-dasharray="3 3"/>
+                  <line x1="40" y1="110" x2="760" y2="110" stroke="#27272a" stroke-dasharray="3 3"/>
+                  <line x1="40" y1="170" x2="760" y2="170" stroke="#27272a" stroke-dasharray="3 3"/>
+
+                  <!-- Benchmark Line -->
+                  <polyline fill="none" stroke="#71717a" stroke-width="2" stroke-dasharray="4 4"
+                    points="40,210 130,200 220,185 310,160 400,125 490,95 580,80 670,105 760,130" />
+
+                  <!-- Triad Equity Line -->
+                  <polyline fill="none" stroke="#6366f1" stroke-width="3"
+                    points="40,210 130,195 220,170 310,135 400,85 490,45 580,25 670,18 760,15" />
+                </svg>
+              </div>
+              <div class="flex justify-between text-[11px] font-mono text-zinc-500">
+                <span>Day 01</span><span>Day 30</span><span>Day 60</span><span>Day 90</span><span>Day 120</span>
+              </div>
+            </div>
+
+            <!-- Active Signals Feed -->
+            <div class="lg:col-span-4 bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-3">
+              <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+                <h2 class="text-sm font-bold text-zinc-100">LIVE DECISION FEED</h2>
+                <span class="text-[10px] font-mono bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded">REAL-TIME</span>
+              </div>
+              <div class="space-y-2.5">
+                <div class="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 space-y-1">
+                  <div class="flex justify-between text-[11px] font-mono">
+                    <span class="font-bold text-zinc-200">NABIL</span>
+                    <span class="text-zinc-500">14:52:10 NPT</span>
+                  </div>
+                  <p class="text-xs text-zinc-400">Route Gamma VETOED buy order. Volatility 7.2% > 6.0% ceiling. Asymmetric tail risk.</p>
+                  <div class="flex justify-between text-[10px] font-mono pt-1">
+                    <span class="text-zinc-500">Agent: GAMMA</span>
+                    <span class="px-1.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800 font-bold">VETO</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 space-y-1">
+                  <div class="flex justify-between text-[11px] font-mono">
+                    <span class="font-bold text-zinc-200">CHCL</span>
+                    <span class="text-zinc-500">14:15:33 NPT</span>
+                  </div>
+                  <p class="text-xs text-zinc-400">Harmonious consensus (+63.5). Corporate action: 15% dividend with 8 days to close.</p>
+                  <div class="flex justify-between text-[10px] font-mono pt-1">
+                    <span class="text-zinc-500">Agent: CONSENSUS</span>
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">BUY</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Philosophy Card -->
+          <div class="bg-gradient-to-r from-zinc-900 to-indigo-950/40 border border-zinc-800 rounded-xl p-5 shadow-lg flex justify-between items-center">
+            <div>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">The Cognitive Prosthetic Philosophy</h3>
+              <p class="text-xs text-zinc-400 mt-1 max-w-4xl">
+                "Just as an astronomer does not surrender cognitive sovereignty to the telescope, a strategist must never abdicate governance to an uninterpretable algorithmic black box. The telescope sharpens perception; the strategist governs the cosmos."
+              </p>
+            </div>
+            <button onclick="switchTab('consciousness')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-mono font-semibold transition shrink-0">
+              Inspect Triad Debate →
+            </button>
+          </div>
+        </div>
+
+        <!-- PAGE 2: AI CONSCIOUSNESS -->
+        <div id="page-consciousness" class="hidden space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Alpha -->
+            <div class="bg-zinc-900/90 border border-blue-900/50 rounded-xl p-5 shadow-lg space-y-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-xs font-mono text-blue-400 font-bold uppercase">Route Alpha (40%)</span>
+                  <h2 class="text-sm font-bold text-white">The Structural Rationalist</h2>
+                  <p class="text-[11px] text-zinc-400 font-mono">Macroeconomics & Law</p>
+                </div>
+                <div class="font-mono text-xl font-bold text-blue-400">+65 / 100</div>
+              </div>
+              <div class="space-y-1 text-xs text-zinc-300">
+                <div>• NRB monetary policy liquidity easing confirmed (CD ratio 81.2%).</div>
+                <div>• EMA 20/50 golden cross satisfies Fama-French momentum.</div>
+              </div>
+              <div class="pt-2 border-t border-zinc-800 flex gap-1 font-mono text-[10px] text-blue-300">
+                <span class="bg-blue-950 px-2 py-0.5 rounded border border-blue-900">Minsky (1986)</span>
+                <span class="bg-blue-950 px-2 py-0.5 rounded border border-blue-900">Keynes (1936)</span>
+              </div>
+            </div>
+
+            <!-- Beta -->
+            <div class="bg-zinc-900/90 border border-purple-900/50 rounded-xl p-5 shadow-lg space-y-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-xs font-mono text-purple-400 font-bold uppercase">Route Beta (35%)</span>
+                  <h2 class="text-sm font-bold text-white">The Behavioral Synthesizer</h2>
+                  <p class="text-[11px] text-zinc-400 font-mono">Behavioral Psychology</p>
+                </div>
+                <div class="font-mono text-xl font-bold text-purple-400">+80 / 100</div>
+              </div>
+              <div class="space-y-1 text-xs text-zinc-300">
+                <div>• Volume surge: Le Bon's crowd psychology in retail order flow.</div>
+                <div>• Shiller narrative urgency score: 0.74 ahead of book close.</div>
+              </div>
+              <div class="pt-2 border-t border-zinc-800 flex gap-1 font-mono text-[10px] text-purple-300">
+                <span class="bg-purple-950 px-2 py-0.5 rounded border border-purple-900">Shiller (2019)</span>
+                <span class="bg-purple-950 px-2 py-0.5 rounded border border-purple-900">Kahneman (1979)</span>
+              </div>
+            </div>
+
+            <!-- Gamma -->
+            <div class="bg-zinc-900/90 border-2 border-rose-600 rounded-xl p-5 shadow-xl space-y-3 animate-pulse">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-xs font-mono text-rose-400 font-bold uppercase">Route Gamma (25% + VETO)</span>
+                  <h2 class="text-sm font-bold text-white">The Philosophical Systemist</h2>
+                  <p class="text-[11px] text-zinc-400 font-mono">Tail Risk & Complexity</p>
+                </div>
+                <div class="font-mono text-xl font-bold text-rose-400">-85 <span class="text-[10px] block text-rose-500">VETO</span></div>
+              </div>
+              <div class="space-y-1 text-xs text-rose-200">
+                <div>• TALEB VETO ENGAGED: Volatility 7.15% > 6.0% safety threshold.</div>
+                <div>• Asymmetric downside fragility: catastrophic drawdown probability overrides expected bounce.</div>
+              </div>
+              <div class="pt-2 border-t border-rose-900 flex gap-1 font-mono text-[10px] text-rose-300">
+                <span class="bg-rose-950 px-2 py-0.5 rounded border border-rose-800">Taleb (2012)</span>
+                <span class="bg-rose-950 px-2 py-0.5 rounded border border-rose-800">Popper (1934)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consensus Banner -->
+          <div class="bg-gradient-to-r from-rose-950/60 to-zinc-900 border-2 border-rose-600 p-5 rounded-xl flex justify-between items-center">
+            <div>
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-rose-900 text-rose-200 border border-rose-700">CONSTITUTIONAL VETO OVERRIDE</span>
+              <div class="text-lg font-bold text-white mt-1">ACTION: CASH PRESERVATION (ORDER BLOCKED)</div>
+              <p class="text-xs text-zinc-400 mt-0.5">Route Gamma has vetoed Alpha (+65) and Beta (+80). Portfolio sheltered 100% in cash.</p>
+            </div>
+            <div class="text-right font-mono text-xs text-zinc-400 bg-zinc-950 p-3 rounded border border-zinc-800">
+              <div>Consensus Score: <strong class="text-rose-400">-85.00</strong></div>
+              <div>Taleb Veto Status: <strong class="text-rose-400">ACTIVE</strong></div>
+            </div>
+          </div>
+
+          <!-- AI Journal Memo -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-6 shadow-xl space-y-3">
+            <h3 class="text-sm font-bold text-white uppercase">AI AUDIT MEMO (LOCAL LLAMA-3 & PGVECTOR RAG)</h3>
+            <div class="bg-zinc-950 p-5 rounded border border-zinc-800 font-mono text-xs text-zinc-300 whitespace-pre-wrap leading-relaxed">
+### Strategic Audit Memo: TALEB VETO ENGAGED on NABIL
+Consensus Action: BLOCKED (100% Cash Allocation Enforced)
+
+Route Alpha (+65/100) identified structural valuation support. Route Beta (+80/100) detected intense narrative contagion across retail order flow. However, Route Gamma (-85/100) unilaterally vetoed execution as 20-period volatility crossed 7.15%, entering an acute fragility regime.
+
+Per Nassim Nicholas Taleb's Antifragile (2012), under severe regime shifts, statistical mean-reversion fails: the exposure has asymmetric negative ruin probability. The system locks 100% into cash. In accordance with Karl Popper's falsification principle, when our volatility bounds fail, the system refuses to act.
+
+324 execution attempts blocked during bear regimes. Zero leaks into falling knives.
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 3: PORTFOLIO & LEDGER -->
+        <div id="page-portfolio" class="hidden space-y-6">
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
+            <h2 class="text-sm font-bold text-white">OPEN VIRTUAL HOLDINGS</h2>
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 uppercase text-[11px]">
+                <tr>
+                  <th class="p-3">Symbol</th>
+                  <th class="p-3">Sector</th>
+                  <th class="p-3 text-right">Quantity</th>
+                  <th class="p-3 text-right">Avg Cost (NPR)</th>
+                  <th class="p-3 text-right">LTP (NPR)</th>
+                  <th class="p-3 text-right">Unrealized PnL</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-800/60">
+                <tr>
+                  <td class="p-3 font-bold text-white">CHCL</td>
+                  <td class="p-3 text-zinc-400">Hydropower</td>
+                  <td class="p-3 text-right">4,500</td>
+                  <td class="p-3 text-right">412.50</td>
+                  <td class="p-3 text-right font-bold text-white">485.00</td>
+                  <td class="p-3 text-right font-bold text-emerald-400">+326,250.00 (+17.58%)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-white">SHIVM</td>
+                  <td class="p-3 text-zinc-400">Manufacturing</td>
+                  <td class="p-3 text-right">2,800</td>
+                  <td class="p-3 text-right">460.00</td>
+                  <td class="p-3 text-right font-bold text-white">512.00</td>
+                  <td class="p-3 text-right font-bold text-emerald-400">+145,600.00 (+11.30%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-lg space-y-4">
+            <h2 class="text-sm font-bold text-white">T+2 SETTLEMENT AUDIT LEDGER</h2>
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 uppercase text-[11px]">
+                <tr>
+                  <th class="p-3">Tx ID</th>
+                  <th class="p-3">Date</th>
+                  <th class="p-3">Type</th>
+                  <th class="p-3">Symbol</th>
+                  <th class="p-3 text-right">Amount (NPR)</th>
+                  <th class="p-3">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-800/60">
+                <tr>
+                  <td class="p-3 text-zinc-500 font-bold">TX-9042</td>
+                  <td class="p-3 text-zinc-400">2026-09-07</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-900 text-[10px]">SELL</span></td>
+                  <td class="p-3 font-bold text-white">GBIME</td>
+                  <td class="p-3 text-right text-emerald-400 font-bold">+1,200,000.00</td>
+                  <td class="p-3 text-amber-400 animate-pulse">⏳ Pending T+2</td>
+                </tr>
+                <tr>
+                  <td class="p-3 text-zinc-500 font-bold">TX-8991</td>
+                  <td class="p-3 text-zinc-400">2026-09-06</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-900 text-[10px]">BUY</span></td>
+                  <td class="p-3 font-bold text-white">CHCL</td>
+                  <td class="p-3 text-right text-zinc-300">-1,856,250.00</td>
+                  <td class="p-3 text-emerald-400">✅ Settled</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PAGE 4: RESEARCH LAB -->
+        <div id="page-research" class="hidden space-y-6">
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-xl space-y-4">
+            <h2 class="text-sm font-bold text-white uppercase">THE STRATEGIC DUAL-REGIME PERFORMANCE BENCHMARK</h2>
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 uppercase text-[11px]">
+                <tr>
+                  <th class="p-3">Dimension</th>
+                  <th class="p-3 text-indigo-400">2021 Bull Expansion (+110% Index)</th>
+                  <th class="p-3 text-rose-400">2022-2023 Bear Crash (-48.5% Index)</th>
+                  <th class="p-3">Strategic Interpretation</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-800/60">
+                <tr>
+                  <td class="p-3 font-bold text-white">Cognitive Triad Return</td>
+                  <td class="p-3 font-bold text-emerald-400">+86.74%</td>
+                  <td class="p-3 font-bold text-rose-400">0.00% (100% Cash Defense)</td>
+                  <td class="p-3 text-zinc-400 font-sans">Full trend extraction vs absolute crash shield.</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-white">Max Drawdown</td>
+                  <td class="p-3 font-bold text-emerald-400">1.30%</td>
+                  <td class="p-3 font-bold text-emerald-400">0.00%</td>
+                  <td class="p-3 text-zinc-400 font-sans">Asymmetric downside mitigation via Taleb Veto.</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-white">Route Gamma Taleb Vetoes</td>
+                  <td class="p-3 text-zinc-400">0 Vetoes (Normal regime)</td>
+                  <td class="p-3 font-bold text-rose-400">324 Orders Blocked</td>
+                  <td class="p-3 text-zinc-400 font-sans">Blocks falling-knife dips when volatility &gt; 6.0%.</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-white">Capital Preserved</td>
+                  <td class="p-3 font-bold text-emerald-400">+NPR 11,536,055.78</td>
+                  <td class="p-3 font-bold text-emerald-400">+NPR 5,343,690.07</td>
+                  <td class="p-3 text-zinc-400 font-sans">Direct cash spared from unmanaged benchmark collapse.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      ['overview', 'consciousness', 'portfolio', 'research'].forEach(t => {
+        document.getElementById(`page-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50';
+      });
+      document.getElementById(`page-${tabId}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabId}`).className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition bg-zinc-900 text-white border border-zinc-800';
+    }
+  </script>
+</body>
+</html>
