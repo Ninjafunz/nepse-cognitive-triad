@@ -9,6 +9,7 @@ celery_app = Celery(
     backend=settings.CELERY_RESULT_BACKEND,
     include=[
         "app.tasks.market_tasks",
+        "app.tasks.reflection_tasks",
     ],
 )
 
@@ -28,6 +29,10 @@ celery_app.conf.update(
         "settle-t2-transactions-daily": {
             "task": "app.tasks.market_tasks.run_daily_settlement",
             "schedule": 3600.0,  # checked hourly
+        },
+        "epistemic-reflection-audit-daily": {
+            "task": "app.tasks.reflection_tasks.run_daily_reflection_check",
+            "schedule": 14400.0,  # runs daily post-close audit
         },
     },
 )

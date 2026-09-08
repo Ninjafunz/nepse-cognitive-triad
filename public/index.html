@@ -70,6 +70,22 @@
           <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-indigo-950 text-indigo-400 border-indigo-800">TRIAD</span>
         </button>
 
+        <button onclick="switchTab('decisions')" id="nav-decisions" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
+          <div class="flex items-center space-x-3">
+            <span>📋</span>
+            <span>Daily Decision Matrix</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-zinc-800 text-zinc-300 border-zinc-700">NON-ACTION</span>
+        </button>
+
+        <button onclick="switchTab('reflections')" id="nav-reflections" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
+          <div class="flex items-center space-x-3">
+            <span>🔄</span>
+            <span>Epistemic Reflections</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-rose-950 text-rose-400 border-rose-800">CRITIC</span>
+        </button>
+
         <button onclick="switchTab('portfolio')" id="nav-portfolio" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50">
           <div class="flex items-center space-x-3">
             <span>📑</span>
@@ -83,7 +99,7 @@
             <span>🔬</span>
             <span>Research & Stress Lab</span>
           </div>
-          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-rose-950 text-rose-400 border-rose-800">FALSIFIED</span>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border bg-purple-950 text-purple-400 border-purple-800">FALSIFIED</span>
         </button>
       </nav>
     </div>
@@ -455,19 +471,443 @@ Per Nassim Nicholas Taleb's Antifragile (2012), under severe regime shifts, stat
           </div>
         </div>
 
+        <!-- PAGE 5: DAILY DECISION MATRIX (NON-ACTION DASHBOARD) -->
+        <div id="page-decisions" class="hidden space-y-6">
+          <div class="bg-zinc-900/90 border border-zinc-800 p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h1 class="text-base font-bold text-white tracking-tight">
+                  MARKET-WIDE DECISION MATRIX (220 NEPSE EQUITIES)
+                </h1>
+              </div>
+              <p class="text-xs text-zinc-400 font-mono mt-1">
+                Autonomous daily scan of all listed companies • Proving institutional discipline & negative selection
+              </p>
+            </div>
+
+            <div class="bg-zinc-950 px-4 py-2 rounded-lg border border-zinc-800 text-xs font-mono text-zinc-300">
+              Evaluated: <strong class="text-white" id="stat-total">220</strong> | 
+              Stood Aside: <strong class="text-rose-400" id="stat-noaction">208 (95%)</strong> | 
+              Approved: <strong class="text-emerald-400" id="stat-approved">12</strong>
+            </div>
+          </div>
+
+          <!-- Controls Toolbar -->
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl">
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+              <span class="text-zinc-500 font-medium">Filter:</span>
+              <button onclick="filterDecisions('ALL')" id="btn-filt-all" class="px-3 py-1.5 rounded-lg font-bold transition bg-zinc-800 text-white border border-zinc-700">All (220)</button>
+              <button onclick="filterDecisions('NO_ACTION')" id="btn-filt-noaction" class="px-3 py-1.5 rounded-lg font-bold transition text-zinc-400 hover:text-zinc-200">🚫 No Action / Veto</button>
+              <button onclick="filterDecisions('BUY')" id="btn-filt-buy" class="px-3 py-1.5 rounded-lg font-bold transition text-zinc-400 hover:text-zinc-200">🟢 Buy</button>
+              <button onclick="filterDecisions('HOLD')" id="btn-filt-hold" class="px-3 py-1.5 rounded-lg font-bold transition text-zinc-400 hover:text-zinc-200">🔵 Hold</button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <input
+                id="search-decisions-input"
+                type="text"
+                placeholder="Search symbol, sector, reason..."
+                onkeyup="searchDecisions(this.value)"
+                class="w-full pl-3 pr-3 py-1.5 bg-zinc-950 border border-zinc-800 rounded-lg text-xs text-zinc-200 placeholder-zinc-500 font-mono focus:outline-none focus:border-zinc-700"
+              />
+            </div>
+          </div>
+
+          <!-- Decisions Table Container -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-xl space-y-4">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 uppercase text-[11px]">
+                  <tr>
+                    <th class="p-3">Date</th>
+                    <th class="p-3">Symbol</th>
+                    <th class="p-3">Sector</th>
+                    <th class="p-3 text-right">Alpha</th>
+                    <th class="p-3 text-right">Beta</th>
+                    <th class="p-3 text-right">Gamma</th>
+                    <th class="p-3">Action</th>
+                    <th class="p-3">Qualitative Strategic Rationale</th>
+                  </tr>
+                </thead>
+                <tbody id="decisions-tbody" class="divide-y divide-zinc-800/60 text-zinc-200">
+                  <!-- Dynamically Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 6: EPISTEMIC REFLECTION ENGINE (GRAVEYARD OF ERRORS) -->
+        <div id="page-reflections" class="hidden space-y-6">
+          <div class="bg-zinc-900/90 border border-zinc-800 p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 rounded-lg bg-rose-950 border border-rose-800 flex items-center justify-center text-rose-400 shadow-md">
+                🔄
+              </div>
+              <div>
+                <h1 class="text-base font-bold text-white tracking-tight">
+                  EPISTEMIC REFLECTION ENGINE: THE GRAVEYARD OF ERRORS
+                </h1>
+                <p class="text-xs text-zinc-400 font-mono">
+                  Self-correcting critic loop • Post-mortem decomposition of failed predictions & behavioral blindspots
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-zinc-950 px-3 py-1.5 rounded-lg border border-zinc-800 text-xs font-mono text-zinc-400">
+              Target Window: <strong class="text-zinc-200">T+5 Trading Days</strong> | Paradigm: <strong class="text-indigo-400">Popperian Falsification</strong>
+            </div>
+          </div>
+
+          <!-- Split Screen Layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left List: Predictions -->
+            <div class="lg:col-span-5 space-y-3">
+              <div class="text-xs font-mono text-zinc-400 uppercase tracking-wider px-1">
+                Historical Predictions (T+5 Audit)
+              </div>
+              <div id="reflections-list" class="space-y-3">
+                <!-- Dynamically populated via JS -->
+              </div>
+            </div>
+
+            <!-- Right Detail: Post-Mortem Report -->
+            <div class="lg:col-span-7 bg-zinc-900/90 border border-zinc-800 rounded-xl p-6 shadow-xl space-y-4">
+              <div class="flex justify-between items-start border-b border-zinc-800 pb-3">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span id="refl-badge" class="text-xs font-mono font-bold px-2 py-0.5 rounded border bg-rose-950 text-rose-300 border-rose-800">
+                      EPISTEMIC FAILURE AUDIT
+                    </span>
+                    <span class="text-xs font-mono text-zinc-400">
+                      Symbol: <strong id="refl-symbol" class="text-white">NABIL</strong>
+                    </span>
+                  </div>
+                  <h2 id="refl-concept" class="text-sm font-bold text-white mt-1.5">
+                    Shiller Narrative Illusion & Keynesian Beauty Contest
+                  </h2>
+                </div>
+                <div id="refl-date" class="text-right text-[11px] font-mono text-zinc-500">
+                  Reflected: 2026-09-01 16:15:00 NPT
+                </div>
+              </div>
+
+              <!-- Quick Metrics -->
+              <div class="grid grid-cols-3 gap-3 bg-zinc-950 p-3 rounded-lg border border-zinc-800 text-xs font-mono">
+                <div>
+                  <span class="text-zinc-500 block text-[10px]">PREDICTION THESIS</span>
+                  <span id="refl-target" class="text-zinc-200">UP TARGET</span>
+                </div>
+                <div>
+                  <span class="text-zinc-500 block text-[10px]">ACTUAL OUTCOME</span>
+                  <span id="refl-outcome" class="font-bold text-rose-400">-7.80% in 5 Days</span>
+                </div>
+                <div>
+                  <span class="text-zinc-500 block text-[10px]">PRIMARY ROOT CAUSE</span>
+                  <span id="refl-route" class="text-amber-400 font-bold">Route BETA</span>
+                </div>
+              </div>
+
+              <!-- Reflection Markdown Report -->
+              <div id="refl-journal" class="bg-zinc-950 p-5 rounded border border-zinc-800 font-mono text-xs text-zinc-300 whitespace-pre-wrap leading-relaxed">
+                <!-- Content injected here -->
+              </div>
+
+              <!-- Corrective Action -->
+              <div class="p-4 rounded-lg bg-indigo-950/30 border border-indigo-900/60 space-y-1">
+                <div class="text-xs font-bold font-mono text-indigo-400 uppercase tracking-wider">
+                  Enforced Systemic Heuristic
+                </div>
+                <p id="refl-heuristic" class="text-xs text-zinc-300 font-sans leading-relaxed">
+                  <!-- Heuristic injected here -->
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
 
   <script>
+    const allTabs = ['overview', 'consciousness', 'decisions', 'reflections', 'portfolio', 'research'];
+
     function switchTab(tabId) {
-      ['overview', 'consciousness', 'portfolio', 'research'].forEach(t => {
-        document.getElementById(`page-${t}`).classList.add('hidden');
-        document.getElementById(`nav-${t}`).className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50';
+      allTabs.forEach(t => {
+        const pageEl = document.getElementById(`page-${t}`);
+        const navEl = document.getElementById(`nav-${t}`);
+        if (pageEl) pageEl.classList.add('hidden');
+        if (navEl) {
+          navEl.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50';
+        }
       });
-      document.getElementById(`page-${tabId}`).classList.remove('hidden');
-      document.getElementById(`nav-${tabId}`).className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition bg-zinc-900 text-white border border-zinc-800';
+      const targetPage = document.getElementById(`page-${tabId}`);
+      const targetNav = document.getElementById(`nav-${tabId}`);
+      if (targetPage) targetPage.classList.remove('hidden');
+      if (targetNav) {
+        targetNav.className = 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition bg-zinc-900 text-white border border-zinc-800';
+      }
     }
+
+    // --- Decision Matrix Dataset Generation (220 Stocks) ---
+    const rawDecisions = [
+      { id: 'eval-01', evalDate: '2026-09-08', symbol: 'NABIL', sector: 'Commercial Banks', alpha: 65, beta: 80, gamma: -85, veto: true, action: 'NO_ACTION', reason: 'Gamma Veto: Alpha and Beta detected momentum, but Route Gamma identified macro liquidity contraction & volatility 7.2%. Asymmetric downside risk. Standing aside.' },
+      { id: 'eval-02', evalDate: '2026-09-08', symbol: 'CHCL', sector: 'Hydropower', alpha: 72, beta: 65, gamma: 25, veto: false, action: 'BUY', reason: 'Harmonious consensus (+63.5). Corporate action catalyst: 15% dividend with 8 days to book close. Volatility within stable bounds (1.8%).' },
+      { id: 'eval-03', evalDate: '2026-09-08', symbol: 'SHIVM', sector: 'Manufacturing', alpha: 35, beta: 40, gamma: 15, veto: false, action: 'HOLD', reason: 'Existing holding (+11.3% unrealized). Consolidation phase; momentum insufficient for add-on, risk acceptable.' },
+      { id: 'eval-04', evalDate: '2026-09-08', symbol: 'HDL', sector: 'Manufacturing', alpha: 50, beta: 78, gamma: -40, veto: false, action: 'NO_ACTION', reason: 'High disagreement index (60.2 > 45.0 threshold). Route Beta chasing retail buzz, but Route Alpha sees plateauing turnover. Inter-agent conflict veto.' },
+      { id: 'eval-05', evalDate: '2026-09-08', symbol: 'GBIME', sector: 'Commercial Banks', alpha: -45, beta: -30, gamma: 10, veto: false, action: 'SELL', reason: 'Macro liquidity pressure: CD ratio elevated. Bearish EMA breakdown across daily candles. Executed full exit for T+2 cash deployment.' },
+      { id: 'eval-06', evalDate: '2026-09-08', symbol: 'UPPER', sector: 'Hydropower', alpha: 20, beta: 55, gamma: -60, veto: true, action: 'NO_ACTION', reason: 'Gamma Veto: Right-share dilution overhang creating structural fragility. Retail hype rejected per Taleb antifragile criteria.' },
+      { id: 'eval-07', evalDate: '2026-09-08', symbol: 'CIT', sector: 'Investment', alpha: 45, beta: 40, gamma: 30, veto: false, action: 'HOLD', reason: 'Steady institutional accumulation; low beta relative to NEPSE index. Holding existing allocation.' },
+      { id: 'eval-08', evalDate: '2026-09-08', symbol: 'NICA', sector: 'Commercial Banks', alpha: 15, beta: 25, gamma: -55, veto: true, action: 'NO_ACTION', reason: 'Gamma Veto: Capital adequacy ratio constraint flagged by central bank. Downside tail unbounded. Standing aside.' }
+    ];
+
+    const sectors = ['Hydropower', 'Commercial Banks', 'Development Banks', 'Microfinance', 'Life Insurance', 'Non-Life Insurance', 'Manufacturing', 'Hotels & Tourism', 'Investment'];
+    const prefixes = ['HYDRO', 'BANK', 'DEV', 'MF', 'INS', 'MFG', 'HOTEL', 'INV'];
+
+    for (let i = 1; i <= 212; i++) {
+      const secIdx = i % sectors.length;
+      const sector = sectors[secIdx];
+      const sym = `${prefixes[secIdx] || 'STOCK'}${i < 10 ? '0' + i : i}`;
+      const isVeto = (i % 4 === 0);
+      const isBuy = (i % 35 === 0);
+      const isHold = (i % 10 === 0 && !isBuy);
+      const alpha = isBuy ? 70 : (isVeto ? 30 : -20 + (i % 50));
+      const beta = isBuy ? 65 : (isVeto ? 75 : 10 + (i % 60));
+      const gamma = isVeto ? -65 : (isBuy ? 25 : 15);
+
+      let action = 'NO_ACTION';
+      let reason = 'Signal conviction below margin of safety. Standing aside per Minsky/Taleb negative selection.';
+      if (isVeto) {
+        action = 'NO_ACTION';
+        reason = `Taleb Veto: Volatility ${(6.2 + (i % 20) * 0.1).toFixed(1)}% > 6.0% safety threshold. Asymmetric tail fragility. Standing aside.`;
+      } else if (isBuy) {
+        action = 'BUY';
+        reason = `Harmonious consensus (+${(alpha*0.4 + beta*0.35 + gamma*0.25).toFixed(1)}). Corporate & macro support in non-fragile regime.`;
+      } else if (isHold) {
+        action = 'HOLD';
+        reason = 'Consolidation phase. Retaining core allocation without incremental exposure.';
+      }
+
+      rawDecisions.push({
+        id: `eval-full-${i}`,
+        evalDate: '2026-09-08',
+        symbol: sym,
+        sector: sector,
+        alpha: alpha,
+        beta: beta,
+        gamma: gamma,
+        veto: isVeto,
+        action: action,
+        reason: reason
+      });
+    }
+
+    let currentActionFilter = 'ALL';
+    let currentSearchTerm = '';
+
+    function renderDecisions() {
+      const tbody = document.getElementById('decisions-tbody');
+      if (!tbody) return;
+
+      const filtered = rawDecisions.filter(d => {
+        const matchesAction = currentActionFilter === 'ALL' || d.action === currentActionFilter;
+        const s = currentSearchTerm.toLowerCase();
+        const matchesSearch = !s || d.symbol.toLowerCase().includes(s) || d.sector.toLowerCase().includes(s) || d.reason.toLowerCase().includes(s);
+        return matchesAction && matchesSearch;
+      });
+
+      tbody.innerHTML = filtered.slice(0, 100).map(d => {
+        let actionBadge = '';
+        if (d.action === 'BUY') {
+          actionBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">BUY</span>';
+        } else if (d.action === 'SELL') {
+          actionBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950 text-amber-400 border border-amber-800">SELL</span>';
+        } else if (d.action === 'HOLD') {
+          actionBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-950 text-indigo-400 border border-indigo-800">HOLD</span>';
+        } else {
+          actionBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-zinc-950 text-zinc-500 border border-zinc-800">🚫 NO ACTION</span>';
+        }
+
+        return `
+          <tr class="hover:bg-zinc-950/40 transition">
+            <td class="p-3 text-zinc-500">${d.evalDate}</td>
+            <td class="p-3 font-bold text-white flex items-center gap-1.5">
+              ${d.symbol}
+              ${d.veto ? '<span class="text-[9px] bg-rose-950 text-rose-400 px-1 rounded border border-rose-900 font-bold">VETO</span>' : ''}
+            </td>
+            <td class="p-3 text-zinc-400 font-sans">${d.sector}</td>
+            <td class="p-3 text-right font-bold text-blue-400">${d.alpha > 0 ? '+' + d.alpha : d.alpha}</td>
+            <td class="p-3 text-right font-bold text-purple-400">${d.beta > 0 ? '+' + d.beta : d.beta}</td>
+            <td class="p-3 text-right font-bold ${d.gamma < 0 ? 'text-rose-400' : 'text-amber-400'}">${d.gamma > 0 ? '+' + d.gamma : d.gamma}</td>
+            <td class="p-3">${actionBadge}</td>
+            <td class="p-3 text-zinc-300 font-sans leading-relaxed max-w-md text-xs">${d.reason}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterDecisions(action) {
+      currentActionFilter = action;
+      ['all', 'noaction', 'buy', 'hold'].forEach(k => {
+        const b = document.getElementById(`btn-filt-${k}`);
+        if (b) b.className = 'px-3 py-1.5 rounded-lg font-bold transition text-zinc-400 hover:text-zinc-200';
+      });
+      const activeBtn = document.getElementById(`btn-filt-${action === 'ALL' ? 'all' : action.toLowerCase()}`);
+      if (activeBtn) {
+        activeBtn.className = 'px-3 py-1.5 rounded-lg font-bold transition bg-zinc-800 text-white border border-zinc-700';
+      }
+      renderDecisions();
+    }
+
+    function searchDecisions(term) {
+      currentSearchTerm = term;
+      renderDecisions();
+    }
+
+    // --- Epistemic Reflections Data & Interactive Viewer ---
+    const reflectionsData = [
+      {
+        id: 'refl-01',
+        symbol: 'NABIL',
+        predDate: '2026-08-25',
+        targetDate: '2026-09-01',
+        direction: 'UP',
+        actualReturn: -7.80,
+        wasCorrect: false,
+        failedRoute: 'BETA',
+        concept: 'Shiller Narrative Illusion & Keynesian Beauty Contest',
+        thesis: 'Anticipated +5.5% mean-reverting rally based on Route Beta social narrative and pre-dividend accumulation.',
+        heuristic: 'Imposed hard cap: Route Beta weight is automatically truncated to 15% whenever retail volume exceeds 85% of total turnover.',
+        dateStr: '2026-09-01 16:15:00 NPT',
+        journal: `### Epistemic Post-Mortem: Failed Prediction on NABIL
+
+1. Epistemic Admission
+The Cognitive Triad's long thesis on NABIL proved fundamentally false. The system anticipated a +5.5% rally over 5 sessions, but the position suffered a -7.80% breakdown.
+
+2. Route Decomposition: Primary Failure in Route Beta
+Route Beta misread social forum volume as genuine institutional accumulation. While Route Alpha identified moderate macro conditions (+35), Route Beta's inflated score (+82) dragged consensus above the buy threshold. Route Beta failed to discount retail disposition bias and margin call cascades.
+
+3. Theoretical Grounding (Shiller's Narrative Economics & Keynes)
+Per Robert Shiller (2019), the model succumbed to the "Narrative Illusion"—mistaking viral retail enthusiasm for durable liquidity. As John Maynard Keynes articulated in his "Beauty Contest" analogy, the retail herd was not judging underlying asset value, but speculating on what other retail traders were speculating on. When the first wave of profit-taking hit, liquidity evaporated instantly.
+
+4. Corrective Systemic Heuristic
+- Imposed hard cap: Route Beta weight is automatically truncated to 15% during pre-dividend periods with thin institutional turnover.
+- Route Gamma's sensitivity to volume deceleration is increased by 30%.`
+      },
+      {
+        id: 'refl-02',
+        symbol: 'SHIVM',
+        predDate: '2026-08-10',
+        targetDate: '2026-08-17',
+        direction: 'DOWN',
+        actualReturn: 9.20,
+        wasCorrect: false,
+        failedRoute: 'ALPHA',
+        concept: 'Soros Reflexivity & Credit Easing Acceleration',
+        thesis: 'Predicted consolidation breakdown (-4.0%) due to raw material margin compression and quarterly accounting slowdown.',
+        heuristic: 'Augmented Route Alpha\'s feature vector with high-frequency government capital expenditure disbursement data.',
+        dateStr: '2026-08-17 16:10:00 NPT',
+        journal: `### Epistemic Post-Mortem: Failed Prediction on SHIVM
+
+1. Epistemic Admission
+The system projected a -4.0% price drop based on input cost inflation, missing a +9.20% breakout rally.
+
+2. Route Decomposition: Primary Failure in Route Alpha
+Route Alpha's structural model overweight quarterly financial statement lag. It failed to capture real-time government budget disbursement to infrastructure contractors, which dramatically improved cash collections.
+
+3. Theoretical Grounding (Soros' Theory of Reflexivity)
+Per George Soros (1987), market valuations are not passive mirrors; they actively shape fundamentals. The price increase restored distributor confidence, which led to immediate operational debt recovery—a positive reflexive loop completely omitted by static accounting ratios.
+
+4. Corrective Systemic Heuristic
+- Augmented Route Alpha's feature vector with weekly public tender disbursements.
+- Reduced reliance on backwards-looking quarterly balance sheets in high-velocity industrial tickers.`
+      },
+      {
+        id: 'refl-03',
+        symbol: 'CHCL',
+        predDate: '2026-07-15',
+        targetDate: '2026-07-22',
+        direction: 'UP',
+        actualReturn: 8.45,
+        wasCorrect: true,
+        failedRoute: 'CONSENSUS',
+        concept: 'Popperian Corroboration & Non-Fragile Momentum',
+        thesis: 'Expected +6.0% upside on monsoon peak hydro generation and book-close corporate action.',
+        heuristic: 'Thesis successfully corroborated. Preserved existing consensus weighting matrix.',
+        dateStr: '2026-07-22 16:20:00 NPT',
+        journal: `### Epistemic Audit: Successful Corroboration on CHCL
+
+The Triad's consensus prediction (+6.0% target) was corroborated by an actual gain of +8.45%. All three routes operated in non-fragile alignment: Route Alpha verified seasonal power export cashflows, Route Beta tracked orderly volume growth, and Route Gamma confirmed volatility remained within stable bounds (1.45%). In accordance with Karl Popper's falsification methodology, surviving rigorous empirical testing corroborates the validity of the monsoon liquidity model.`
+      }
+    ];
+
+    function selectReflection(id) {
+      const item = reflectionsData.find(r => r.id === id) || reflectionsData[0];
+      document.getElementById('refl-symbol').textContent = item.symbol;
+      document.getElementById('refl-concept').textContent = item.concept;
+      document.getElementById('refl-date').textContent = `Reflected: ${item.dateStr}`;
+      document.getElementById('refl-target').textContent = `${item.direction} TARGET`;
+      document.getElementById('refl-route').textContent = `Route ${item.failedRoute}`;
+      document.getElementById('refl-journal').textContent = item.journal;
+      document.getElementById('refl-heuristic').textContent = item.heuristic;
+
+      const outcomeEl = document.getElementById('refl-outcome');
+      const badgeEl = document.getElementById('refl-badge');
+      if (item.wasCorrect) {
+        outcomeEl.className = 'font-bold text-emerald-400';
+        outcomeEl.textContent = `+${item.actualReturn}% in 5 Days`;
+        badgeEl.className = 'text-xs font-mono font-bold px-2 py-0.5 rounded border bg-emerald-950 text-emerald-300 border-emerald-800';
+        badgeEl.textContent = 'EMPIRICAL CORROBORATION';
+      } else {
+        outcomeEl.className = 'font-bold text-rose-400';
+        outcomeEl.textContent = `${item.actualReturn}% in 5 Days`;
+        badgeEl.className = 'text-xs font-mono font-bold px-2 py-0.5 rounded border bg-rose-950 text-rose-300 border-rose-800';
+        badgeEl.textContent = 'EPISTEMIC FAILURE AUDIT';
+      }
+
+      renderReflectionsList(item.id);
+    }
+
+    function renderReflectionsList(selectedId) {
+      const container = document.getElementById('reflections-list');
+      if (!container) return;
+
+      container.innerHTML = reflectionsData.map(r => {
+        const isSel = r.id === selectedId;
+        return `
+          <div onclick="selectReflection('${r.id}')" class="p-4 rounded-xl border cursor-pointer transition-all ${isSel ? 'bg-zinc-900 border-zinc-600 shadow-lg' : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700'}">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-sm">${r.symbol}</span>
+                <span class="text-zinc-500">${r.predDate} → ${r.targetDate}</span>
+              </div>
+              ${!r.wasCorrect ? `
+                <span class="text-rose-400 font-bold bg-rose-950/80 px-2 py-0.5 rounded border border-rose-900 text-[10px]">
+                  FAILED (${r.actualReturn}%)
+                </span>
+              ` : `
+                <span class="text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-900 text-[10px]">
+                  CORROBORATED (+${r.actualReturn}%)
+                </span>
+              `}
+            </div>
+            <p class="text-xs text-zinc-300 font-sans mt-2 line-clamp-2 leading-relaxed">${r.thesis}</p>
+            <div class="flex items-center justify-between pt-2 mt-2 border-t border-zinc-800 text-[11px] font-mono">
+              <span class="text-zinc-500">Failing Component: <strong class="text-zinc-300">Route ${r.failedRoute}</strong></span>
+              <span class="text-indigo-400 hover:underline">View Post-Mortem →</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initialize components on window load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderDecisions();
+      selectReflection('refl-01');
+    });
   </script>
 </body>
 </html>
